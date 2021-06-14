@@ -1,0 +1,27 @@
+centos7 에서 무작위한 ssh 접근을 막기위해 port 변경을 시도해 보았다.
+
+
+/etc/ssh에 있는 sshd_config 파일을 vi 편집기를 통해 사용할 포트로 변경하고 주석을 해제 한다.
+~]# vi sshd_config
+#Port 22
+ Port ????
+
+포트변경을 해주었다면 방화벽도 열어주어야 한다.
+~]# firewall-cmd --permanent --zone=public --add-port=????/tcp
+~]# firewall-cmd --reload
+
+서비스를 재시작 한다.
+~]# systemctl restart sshd
+
+netstat -ntlp를 통해 확인해 볼 수 있다.
+
+
+
+Job for ssh.service failed because the control process exited with error code. See "systemctl status ssh.service" and "journalctl -xe" for details.
+서비스 재시작시 위 문구의 에러가 나온다면 semanage port -l | grep ssh 명령어를 통해 사용하려는 포트가 열려있는지 확인해본다
+
+~]# port -l | grep ssh
+~]# semanage port -a -t ssh_port_t -p tcp ????
+
+
+semanage 는 SELinux를 조회,수정,삭제 가능하게 하는 툴인 것 같지만 깊게 알아 보는 것은 나중으로 미룬다.
