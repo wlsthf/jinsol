@@ -1,0 +1,25 @@
+
+계정 생성
+  useradd -m -s /bin/bash 계정명
+  -m 기본 디렉토리 옵션 
+  -s 기본 쉘 지정 옵션
+  -G 그룹 지정 옵션
+  -e 계정 만기일 지정 (YYYY-MM-DD 패턴으로 지정)
+  등 여러 옵션이 있다.
+    adduser -p test 계정명
+    계정생성 중 -p 옵션으로 패스워드를 주고 생성을 해도 비밀번호 설정이 되어있지 않았었다.
+    왜 그런지 이유는 찾아봐야겠지만 비밀번호는 계정이 생성된 뒤 만들어 줄 수도 있기에 후에 찾아본다.
+
+계정삭제
+  userdel username     : 계정만 삭제
+  userdel -r username  : 사용자계정과 홈디렉토리 모두 삭제
+  
+비밀번호 변경
+  접속한 계정의 비밀번호 변경시 passwd
+  다른 계정의 비밀번호 변경시 passwd username
+
+계정에 sudo권한 부여
+  /etc/sudoers  파일을 vi 편집기를 이용해 #Allow root to any commands anywhere 하단에  "계정명 ALL=(ALL) ALL"을 추가 해준다.
+  
+
+
