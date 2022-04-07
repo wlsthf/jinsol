@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang='ko'>
+<head>
+<title>끝말잇기</title>
+
+
+	<script>
+		//html이 다 로드되기 전에 script를 작성하게 되면 태그를 캐치 못하면서 에러가 발생한다.		
+		//const $button = document.querySelector('button');	
+		//alert($button);
+		//$button.addEventListener('click', onClickButton);
+	</script>
+</head>
+
+<body>
+	<div>
+		<span id="user">1</span>
+	</div>
+
+	<br/> <hr> <br/>
+
+	<div>
+		제시어: <span id="word"></span>
+	</div>
+	
+	<br/>
+
+	<input type="text" id="newWord">
+	<button id="initButton">입력</button>
+	<button id="testButton">테스트</button>
+
+	
+	<br/> <br/> <br/> <br/> <br/> <br/> <hr>
+	<a href='/home.html'>나가기</a>
+
+</body>
+
+	<script>
+	
+		
+		// 배열이 아니고 NodeList?	
+		
+		//const number = prompt('몇 명이 참가하나요?'); 				//prompt로 받은 값은 모두 문자열이 된다. 따라서 형변환이 필요하다 .
+		//const realNumber = Number(number);
+		//console.log('number', number);
+		//alert(number);
+		
+		//const yesOrNo = confirm('확인이나 취소를 눌러보세요');
+		//alert(yesOrNo);
+		
+		//const $input = document.querySelector('input');
+		//const $button = document.querySelector('button'); 	// button이 여러개 있으면 맨 앞에 하나만 선택한다. 
+		
+		//const $buttons = document.querySelectorAll('button');	// button 전체 선택이 된다.
+		//$buttons[0].addEventListener('click', onClickButton);	// $buttons는 여러개의 개체를 가지고 있어서 몇번 개체에 리스너를 추가 할지 명시해야한다.
+		
+		//document.querySelector('#word'); 						// 중간의 태그 한개만 선택하려면 ID를 특정해서 선택한다.
+		//const $span = document.querySelector('div span'); 	// div 하위에 span이 선택된다.
+		 
+	
+		//const onClickButton = () => { console.log('버튼 클릭'); };
+		//const $button = document.querySelector('button');
+		
+		//document.querySelector('button').addEventListener('click', () => { console.log('버튼 클릭'); }); // 한번에 선언과 동시에 이벤트를 만들 수 있다.
+		
+		// const onInput = (e) => { console.log('글자 입력', e.target.value); };
+		// const $input = document.querySelector('input');
+		// $input.addEventListener('input', onInput);
+			
+		
+		// const testClickButton = () => { 
+		// 		alert('test : ' + document.querySelector('#word').value)
+		// 	}
+		// 	const $testButton = document.querySelector('#testButton');
+		// 	$testButton.addEventListener('click', testClickButton);
+
+			// hanTest(prompt('입력'));
+			// function hanTest(str){
+			// 	if(notHangul.test(str)){
+			// 		alert('한글만 입력하세요.')
+			// 	}else{
+			// 		if(hangul1.test(str)) { 
+			// 			// return true; 
+			// 			alert('단어를 완성시켜 주세요.');
+			// 		}else{ 
+			// 			// return false;
+			// 			if(hangul2.test(str)) { 
+			// 				alert('단어'); 
+			// 			}else{
+			// 				alert('???')
+			// 			}
+			// 		}
+			// 	}
+			// }
+
+		
+		//정규식
+		const number    = /[0-9]/g; 
+		const hangul1   = /[ㄱ-ㅎㅏ-ㅣ]/g; 
+		const hangul2   = /[가-힣]/g; 
+		const notHangul = /[a-zA-Z0-9!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; 
+
+		//변수 선언부
+		let   userIdArr = new Array;
+		const sUserNum  = prompt('몇 명이 참가하나요?');
+		let iUserNum  = Number(sUserNum);
+		const $button   = document.querySelector('button');
+		const $input    = document.querySelector('input');
+		let   $word     = document.querySelector('#word');
+		let   $newWord  = document.querySelector('#newWord');
+		let   $user     = document.querySelector('#user');
+		let   nowUserNm = '';
+		let   userCount = 0;
+		let   startText = '';
+		
+
+
+		//참가 인원 입력값 검증
+		if(!number.test(iUserNum)){
+			alert('숫자만 입력하세요.');
+			location.href = '/home.html'
+
+		}else{
+
+			//참가 인원수 검증
+			if(iUserNum<=1){
+				alert('참가 최소 인원은 두명입니다.')
+				location.href = '/home.html';
+
+			}else{
+				
+				//참가자 id 입력 받기
+				for(var i=0; i<iUserNum; i++){
+					userIdArr[i] = prompt((i+1) + '번 째 참가자 ID를 입력해 주세요.\n(게임의 순서와는 상관 없습니다.)');
+				}
+
+				//게임 순서 섞기
+				shuffle(userIdArr);	
+				console.log('게임 순서 : ' + userIdArr);
+				
+				// 첫 번째 참자가 세팅
+				let hangul3 = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+				shuffle(hangul3);
+				$word.textContent = '첫 번째 참가자는 초성만 제시되며 제시어는 "' + hangul3[userCount] + '"입니다.'; // 화면에 제시어 표시
+				$user.textContent = userIdArr[userCount] + '님의 순서입니다.';
+				
+				//게임 시작 알림문구 만들기
+				startText	+= '첫 번째 참가자는 초성만 제시됩니다.'
+							+  '\n게임의 순서는 아래와 같습니다.';
+				for(var i=0; i<iUserNum; i++){
+					startText += '\n' + (i+1) + '번 : ' + userIdArr[i] ;
+				}
+				startText	+= '\n창을 닫으면 게임이 시작됩니다.';
+				alert(startText)
+
+			}
+		}
+
+		
+		/* ### 끝말잇기 메인 로직 시작 ### */
+		const onClickButton = () => {
+			let word = $newWord.value;
+			let answer = false;
+			
+			if(word === '' || word === undefined){
+				alert('값을 입력하세요.')
+			}else{
+				if(notHangul.test(word)){
+					alert('한글만 입력하세요.')
+				}else{
+					if(hangul1.test(word)) { 
+						alert('단어를 완성시켜 주세요.');
+					}else{
+
+						nowUserNm = userIdArr[userCount++];
+						$newWord.value = '';
+
+						//입력 단어 확인
+						if('기권' === word){
+							alert(nowUserNm + '님이 기권하셨습니다.')
+							answer = true;
+
+						}else if(hangul2.test(word)) { 
+
+							if('테스트' === word){
+								//없는 단어 입력자 테스트
+								answer = true;
+
+							}else{
+								// 통과자 다음 순서로 넘기기
+								$word.textContent = word; //다음 차례 제시어 변경
+							$user.textContent = userIdArr[userCount] + '님의 순서입니다.';
+
+							}
+						}
+
+						// 확인 결과 반영
+						if(answer){
+							//탈락자 삭제
+							userIdArr.splice(--userCount,1);
+							alert(nowUserNm + '님 탈락입니다.');
+							$user.textContent = userIdArr[userCount] + '님의 순서입니다.';
+							iUserNum--;
+							console.log('남은 참가자 : ' + userIdArr);
+
+						}
+
+						alert('순서 : ' + userCount + '\n참가자수 : ' + iUserNum);
+
+						if(userCount >= iUserNum-1){
+							userCount = 0;
+						} 
+
+						alert('순서 : ' + userCount + '\n참가자수 : ' + iUserNum);
+					}
+				}
+
+			}
+
+			// alert('남은 인원 확인 : ' + iUserNum);
+			if(iUserNum === 1){
+				alert('끝말잇기 게임에서 "' + userIdArr + '"님 우승하셨습니다.\n 수고하셨습니다.\n\n창을 닫으면 처음으로 이동합니다.');
+				//location.href = '/home.html';
+			}
+			
+			
+
+
+		};
+		/* ### 끝말잇기 메인 로직 종료 ### */
+
+		
+
+				
+		//함수 선언부
+
+		//입력 버튼 이벤트 생성
+		const $initButton = document.querySelector('#initButton');
+		$initButton.addEventListener('click', onClickButton);
+		//게임 순서 랜덤지정
+
+		function shuffle(val) {
+			val.sort(() => Math.random() - 0.5);
+		}
+
+	</script>
+
+</html>
