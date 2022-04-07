@@ -103,7 +103,7 @@
 		//변수 선언부
 		let   userIdArr = new Array;
 		const sUserNum  = prompt('몇 명이 참가하나요?');
-		let iUserNum  = Number(sUserNum);
+		let iUserNum    = Number(sUserNum);
 		const $button   = document.querySelector('button');
 		const $input    = document.querySelector('input');
 		let   $word     = document.querySelector('#word');
@@ -115,6 +115,7 @@
 		
 
 
+		// !!Comments point
 		//참가 인원 입력값 검증
 		if(!number.test(iUserNum)){
 			alert('숫자만 입력하세요.');
@@ -148,7 +149,7 @@
 				startText	+= '첫 번째 참가자는 초성만 제시됩니다.'
 							+  '\n게임의 순서는 아래와 같습니다.';
 				for(var i=0; i<iUserNum; i++){
-					startText += '\n' + (i+1) + '번 : ' + userIdArr[i] ;
+					startText += '\n' + (i+1) + '번 : ' + userIdArr[i];
 				}
 				startText	+= '\n창을 닫으면 게임이 시작됩니다.';
 				alert(startText)
@@ -162,7 +163,7 @@
 			let word = $newWord.value;
 			let answer = false;
 			
-			if(word === '' || word === undefined){
+			if(word === '' || word){
 				alert('값을 입력하세요.')
 			}else{
 				if(notHangul.test(word)){
@@ -189,7 +190,7 @@
 							}else{
 								// 통과자 다음 순서로 넘기기
 								$word.textContent = word; //다음 차례 제시어 변경
-							$user.textContent = userIdArr[userCount] + '님의 순서입니다.';
+							        $user.textContent = userIdArr[userCount] + '님의 순서입니다.';
 
 							}
 						}
@@ -207,7 +208,7 @@
 
 						alert('순서 : ' + userCount + '\n참가자수 : ' + iUserNum);
 
-						if(userCount >= iUserNum-1){
+						if(userCount >== iUserNum-1){
 							userCount = 0;
 						} 
 
